@@ -1,3 +1,4 @@
+//entity/profile.js
 package off.start.calendarapp.entity;
 
 import jakarta.persistence.Column;

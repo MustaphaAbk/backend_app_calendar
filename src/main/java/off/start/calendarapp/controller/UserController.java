@@ -1,3 +1,4 @@
+//Controller/UserController.js
 package off.start.calendarapp.controller;
 
 import java.util.UUID;
@@ -22,20 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
     
     private final UserService userService;
-
-    @PostMapping
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto userRequestDto){
-        // Call the service to create a new user
-        UserResponseDto createdUser = userService.newUser(userRequestDto);
-        // Return the created user as a response
-        return ResponseEntity.ok(createdUser);
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@RequestParam UUID id) {
         return userService.getuserbyID(id) != null
                 ? ResponseEntity.ok(userService.getuserbyID(id))
                 : ResponseEntity.notFound().build();
     }
+    
     
 }
