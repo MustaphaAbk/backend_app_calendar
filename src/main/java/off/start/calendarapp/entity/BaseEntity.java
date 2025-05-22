@@ -40,6 +40,6 @@ public abstract class BaseEntity {
     private Instant createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false)
+    @Column
     private Instant updatedAt;
 }

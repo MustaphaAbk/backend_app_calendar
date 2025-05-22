@@ -1,3 +1,4 @@
+//serice/userService.java
 package off.start.calendarapp.service;
 
 import java.util.UUID;
@@ -6,11 +7,14 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import off.start.calendarapp.dto.LoginRequestDto;
+import off.start.calendarapp.dto.LoginResponseDto;
 import off.start.calendarapp.dto.UserRequestDto;
 import off.start.calendarapp.dto.UserResponseDto;
 import off.start.calendarapp.entity.User;
 import off.start.calendarapp.mapper.UserMapper;
 import off.start.calendarapp.repository.UserRepo;
+import off.start.calendarapp.security.JwtUtil;
 
 @Service
 @AllArgsConstructor
@@ -40,4 +44,18 @@ public class UserService {
         //return userResponseDto
         return userResponseDto;
     }
+private final JwtUtil jwtUtil;
+
+@Transactional
+public LoginResponseDto login(LoginRequestDto loginRequestDto) {
+    User user = userRepo.findByEmail(loginRequestDto.getEmail()).orElse(null);
+    if (user == null || !user.getPassword().equals(loginRequestDto.getPassword())) {
+        return new LoginResponseDto("Invalid credentials", null, null);
+    }
+
+    String token = jwtUtil.generateToken(user.getEmail(), user.getName());
+    return new LoginResponseDto("Login successful", token, user.getName());
+}
+
+
 }
