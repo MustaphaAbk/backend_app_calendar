@@ -1,23 +1,22 @@
 package off.start.calendarapp.dto;
 
 import java.time.Instant;
-import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileDto {
-    private UUID id;
+public class UserResponseDto {
+    private String name;
+    private String email;
+    private String phone;
+    private ProfileDto profile;
+    private Instant createdAt;
+    private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
-    private Instant createdAt;   
-    private Instant updatedAt;
-    private UUID userId;
-    private String status;
-    private int hoursPerDay;
+
 }
