@@ -1,30 +1,29 @@
 package off.start.calendarapp.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.UUID;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
-@Table(name = "calendar")
+@Data
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class Calendar extends BaseEntity {
 
     @NotBlank(message = "Title is required")
     private String title;
 
     @NotNull(message = "Date is required")
-    private LocalDate date;
+    private String date;
 
     @NotNull(message = "Time is required")
-    private LocalTime time;
+    private String time;
 
     @NotBlank(message = "Category is required")
     private String category;
 
-    @NotNull(message = "User ID is required")
-    private UUID userId;
+    @NotBlank(message = "User ID is required")
+    private String userId;
 }

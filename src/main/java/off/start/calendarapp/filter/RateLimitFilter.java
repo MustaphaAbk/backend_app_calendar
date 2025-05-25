@@ -3,6 +3,7 @@ package off.start.calendarapp.filter;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 import io.github.bucket4j.*;
 
 import java.io.IOException;
@@ -22,17 +23,20 @@ public class RateLimitFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String ip = request.getRemoteAddr();
-
-        Bucket bucket = buckets.computeIfAbsent(ip, k ->
-            Bucket4j.builder()
-                    .addLimit(Bandwidth.classic(10, Refill.greedy(10, Duration.ofMinutes(1))))
-                    .build()
+        
+        Bucket bucket = buckets.computeIfAbsent(ip, key -> 
+            Bucket.builder()
+                .addLimit(Bandwidth.builder()
+                    .capacity(10)
+                    .refillGreedy(10, Duration.ofMinutes(1))
+                    .build())
+                .build()
         );
 
         if (bucket.tryConsume(1)) {
             filterChain.doFilter(request, response);
         } else {
-            response.setStatus(HttpServletResponse.SC_TOO_MANY_REQUESTS);
+            response.setStatus(429);
             response.getWriter().write("Too many requests - try again later.");
         }
     }
