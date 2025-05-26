@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import off.start.calendarapp.dto.LoginRequestDto;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import off.start.calendarapp.dto.LoginResponseDto;
 import off.start.calendarapp.dto.UserRequestDto;
 import off.start.calendarapp.dto.UserResponseDto;
@@ -19,6 +20,7 @@ import off.start.calendarapp.security.JwtUtil;
 @Service
 @AllArgsConstructor
 public class UserService {
+    private final PasswordEncoder passwordEncoder;
     
     private final UserRepo userRepo;
     private final UserMapper userMapper;
@@ -28,6 +30,7 @@ public class UserService {
         // Convert UserRequestDto to User entity
         User user=userMapper.toEntity(userRequestDto);
         // Save the user entity to the database
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepo.save(user);
         // Convert the saved User entity to UserResponseDto
         UserResponseDto userResponseDto=userMapper.toResponseDto(user);
@@ -49,7 +52,7 @@ private final JwtUtil jwtUtil;
 @Transactional
 public LoginResponseDto login(LoginRequestDto loginRequestDto) {
     User user = userRepo.findByEmail(loginRequestDto.getEmail()).orElse(null);
-    if (user == null || !user.getPassword().equals(loginRequestDto.getPassword())) {
+    if (user == null || !passwordEncoder.matches(loginRequestDto.getPassword(), user.getPassword())) {
         return new LoginResponseDto("Invalid credentials", null, null);
     }
 

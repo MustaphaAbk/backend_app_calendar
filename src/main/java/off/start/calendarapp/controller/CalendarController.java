@@ -3,7 +3,8 @@ package off.start.calendarapp.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import off.start.calendarapp.entity.Calendar;
-import off.start.calendarapp.dto.CalendarRepository;
+import off.start.calendarapp.repository.CalendarRepository;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +23,7 @@ public class CalendarController {
 
     // Rate limiter: 5 requests per minute
     private final Bucket bucket = Bucket.builder()
-            .addLimit(Bandwidth.builder()
-                    .capacity(5)
-                    .refillGreedy(5, Duration.ofMinutes(1))
-                    .build())
+            .addLimit(Bandwidth.simple(5, Duration.ofMinutes(1)))
             .build();
 
     @PostMapping("/")

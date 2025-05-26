@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import off.start.calendarapp.dto.ProfileDto;
@@ -29,6 +30,6 @@ public class ProfileService {
     public ProfileDto getProfileById(UUID userId) {
         return profileRepo.findByUserId(userId)
                 .map(profileMapper::toDto)
-                .orElse(null); // or throw custom NotFoundException
+                .orElseThrow(() -> new EntityNotFoundException("Profile not found for userId: " + userId)); // or throw custom NotFoundException
     }
 }

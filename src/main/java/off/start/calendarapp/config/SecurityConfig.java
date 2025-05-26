@@ -1,4 +1,4 @@
-//SecurityConfig.java
+//config/SecurityConfig.java
 package off.start.calendarapp.config;
 
 import lombok.RequiredArgsConstructor;

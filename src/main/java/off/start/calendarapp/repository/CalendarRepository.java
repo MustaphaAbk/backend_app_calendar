@@ -1,4 +1,4 @@
-package off.start.calendarapp.dto;
+package off.start.calendarapp.repository;
 
 import off.start.calendarapp.entity.Calendar;
 import org.springframework.data.jpa.repository.JpaRepository;

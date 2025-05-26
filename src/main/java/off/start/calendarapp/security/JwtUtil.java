@@ -1,3 +1,4 @@
+//security/jwt/JwtUtil.java
 package off.start.calendarapp.security;
 
 import io.jsonwebtoken.*;
@@ -10,8 +11,8 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String jwtSecret = "YourVerySecretKeyThatIsLongEnough123456";
-    private final long jwtExpirationMs = 86400000; // 24 hours
+    private final String jwtSecret = "YourVerySecretKeyThd35atIsLongEnough123456";
+    private final long jwtExpirationMs = 86200000; // 24 hours
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());

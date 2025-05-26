@@ -1,3 +1,4 @@
+//filer/RateLimitFilter.java
 package off.start.calendarapp.filter;
 
 import jakarta.servlet.*;
@@ -26,18 +27,16 @@ public class RateLimitFilter extends OncePerRequestFilter {
         
         Bucket bucket = buckets.computeIfAbsent(ip, key -> 
             Bucket.builder()
-                .addLimit(Bandwidth.builder()
-                    .capacity(10)
-                    .refillGreedy(10, Duration.ofMinutes(1))
-                    .build())
+                .addLimit(Bandwidth.simple(10, Duration.ofMinutes(1)))
                 .build()
         );
 
-        if (bucket.tryConsume(1)) {
-            filterChain.doFilter(request, response);
-        } else {
-            response.setStatus(429);
-            response.getWriter().write("Too many requests - try again later.");
-        }
+if (bucket.tryConsume(1)) {
+    filterChain.doFilter(request, response);
+} else {
+    response.setStatus(429); // HTTP 429 Too Many Requests
+    response.setContentType("application/json");
+    response.getWriter().write("{\"error\": \"Too many requests. Please try again later.\"}");
+}
     }
 }

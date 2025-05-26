@@ -1,3 +1,4 @@
+//cofin/JpaConfig.java
 package off.start.calendarapp.config;
 
 import org.springframework.context.annotation.Configuration;

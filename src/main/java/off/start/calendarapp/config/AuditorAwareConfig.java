@@ -1,3 +1,4 @@
+//cofing//auditorAwareConfig.java
 package off.start.calendarapp.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

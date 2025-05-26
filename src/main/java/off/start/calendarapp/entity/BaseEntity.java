@@ -1,3 +1,4 @@
+//entity/BaseEntity.java
 package off.start.calendarapp.entity;
 
 import java.time.Instant;

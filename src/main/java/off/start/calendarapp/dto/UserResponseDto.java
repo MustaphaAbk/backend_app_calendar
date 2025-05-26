@@ -19,5 +19,4 @@ public class UserResponseDto {
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
-
 }
